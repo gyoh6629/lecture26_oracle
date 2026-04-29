@@ -66,3 +66,28 @@ INSERT INTO Imported_Book VALUES(22, 'Soccer Skills', 'Human Kinetics', 15000);
 
 COMMIT;
 
+/* 01 다음은 마당서점 고객이 알고 싶어 하는 내용이다. 각 문항에 맞는 SQL 문을 작성하시오 */
+/* (1) 도서번호가 1인 도서의 이름 */
+SELECT bookname FROM Book WHERE bookid = 1;
+/* (2) 가격이 20,000원 이상인 도서의 이름 */
+SELECT bookname FROM Book WHERE price >= 20000;
+/* (3) '박지성'의 총구매액 */
+select sum(orders.saleprice) as "총구매액" from customer, orders where customer.custid = orders.custid and customer.name like '박지성';
+/* (4) '박지성'이 구매한 도서의 수 */
+select count(*) as "구매한 도서의 수" from customer, orders where customer.custid = orders.custid and customer.name like '박지성';
+
+/* 02 다음은 마당서점 운영자와 경영자가 알고 싶어 하는 내용이다. 각 문항에 맞는 SQL 문을 작성하시오. */
+/* (1) 마당서점 도서의 총수 */
+select count(*) as "도서의 총수" from book;
+/* (2) 마당서점에 도서를 출고하는 출판사의 총수 */
+select count(distinct publisher) as "출판사의 총수" from book;
+/* (3) 모든 고객의 이름, 주소 */
+select name, address from customer;
+/* (4) 2025년 7월 4일부터 7월 7일 사이에 주문받은 도서의 주문번호 */
+select orderid from orders where orderdate >= '20250704' and orderdate <= '20250707';
+/* (5) 2025년 7월 4일부터 7월 7일 사이에 주문받은 도서를 제외한 도서의 주문번호 */
+select orderid from orders where orderid not in (select orderid from orders where orderdate >= '20250704' and orderdate <= '20250707');
+/* (6) 성이 '김' 씨인 고객의 이름과 주소 */
+select name, address from customer where name like '김%';
+/* (7) 성이 '김' 씨이고 이름이 '아'로 끝나는 고객의 이름과 주소 */
+select name, address from customer where name like '김%아';
