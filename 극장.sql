@@ -235,15 +235,18 @@ select ㅇ.고객번호, ㅇ.날짜 from 예약 ㅇ where ㅇ.고객번호 in(se
 --37. 극장 테이블에서 소속된 모든 상영관의 가격이 10000원 이상인 극장의 극장이름을 조회
 --하시오. (NOT EXISTS 활용)
 --(풀이)
+select ㄱ.극장이름 from 극장 ㄱ where not exists(select 1 from 상영관 ㅅ where ㅅ.극장번호 = ㄱ.극장번호 and 가격 < 10000);
 --38. 고객 테이블에서 예약 테이블에 서로 다른 극장에 2곳 이상 예약한 고객의 이름을 조회
 --하시오
 --(풀이)
+select ㄲ.이름 from 고객 ㄲ where (select count(distinct ㅇ.극장번호) from 예약 ㅇ where ㅇ.고객번호 = ㄲ.고객번호) >= 2;
 --39. 상영관 테이블에서 같은 극장 내에서 좌석수가 가장 많은 상영관의 영화제목을 조회하시
 --오.
 --(풀이)
+select ㅅ.영화제목 from 상영관 ㅅ where ㅅ.좌석수 in(select max(ㅆ.좌석수) from 상영관 ㅆ where ㅆ.극장번호 = ㅅ.극장번호);
 --40. 고객 테이블에서 가장 최근 날짜에 예약한 고객의 이름을 조회하시오.
 --(풀이)
-
+select ㄲ.이름 from 고객 ㄲ join 예약 ㅇ on ㄲ.고객번호 = ㅇ.고객번호 where not exists(select 1 from 예약 ㅇㅇ where ㅇㅇ.날짜 > ㅇ.날짜);
 
 
 
